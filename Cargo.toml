@@ -3,6 +3,8 @@ name = "serving-bench"
 version = "0.1.0"
 edition = "2021"
 publish = false
+license = "MIT"
+repository = "https://github.com/LDB-org/serving-bench"
 description = "Performance and behavior evaluation for deployed language models"
 
 [dependencies]

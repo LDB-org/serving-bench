@@ -76,4 +76,4 @@ cargo build --release --locked
 
 Tests create short-lived local HTTP fixtures and do not load a model. CI is configured for Linux, macOS, and Windows; local compilation only establishes the platform actually tested.
 
-The Rust library exposes `config::Config::load`, `runner::plan`, `runner::run`, `runner::report`, and `runner::compare`, plus protocol, scoring, and metric modules. [Forge](https://github.com/LDB-org/Forge) can later consume versioned artifacts; [LDB](https://github.com/LDB-org/LDB) remains the separate runtime debugger. Neither is a dependency. Package publication and licensing remain undecided.
+The Rust library exposes `config::Config::load`, `runner::plan`, `runner::run`, `runner::report`, and `runner::compare`, plus protocol, scoring, and metric modules. [Forge](https://github.com/LDB-org/Forge) can later consume versioned artifacts; [LDB](https://github.com/LDB-org/LDB) remains the separate runtime debugger. Neither is a dependency. Licensed under [MIT](LICENSE). Crates.io publication is not enabled.
