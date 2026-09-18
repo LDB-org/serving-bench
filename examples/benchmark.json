@@ -1,0 +1,29 @@
+{
+  "status": "illustrative_design_only_not_executable",
+  "schema_version": "proposal-0",
+  "target": {
+    "adapter": "chat-completions",
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "your-served-model",
+    "api_key_env": "BENCH_API_KEY",
+    "engine": {"name": "unknown", "version": "unknown"}
+  },
+  "workload": {
+    "dataset": "./data/prompts.jsonl",
+    "seed": 42,
+    "stream": true,
+    "max_output_tokens": 256,
+    "temperature": 0,
+    "cache_policy": "unknown"
+  },
+  "load": {
+    "mode": "closed_loop",
+    "concurrency": 4,
+    "requests": 200,
+    "warmup_requests": 8,
+    "request_timeout_seconds": 120,
+    "drain_timeout_seconds": 120
+  },
+  "slo": {"ttft_ms": 1000, "e2e_ms": 15000},
+  "artifacts": {"save_content": false}
+}
