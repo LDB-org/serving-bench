@@ -1,6 +1,6 @@
 # serving-bench：首版设计讨论稿
 
-状态：提案，2026-09-18。本文中的命令、模块和配置均未实现。
+状态：设计与路线图，2026-09-18。已开始 Rust 实现；当前可用能力与未完成部分以 [implementation.zh-CN.md](implementation.zh-CN.md) 为准，本文包含尚未落地的完整目标。
 
 ## 1. 定位
 
@@ -33,7 +33,7 @@ vLLM 与 SGLang 已有官方 serving benchmark。我们复用这些项目的术�
 5. `report`：只读本地产物，重新聚合，输出 JSON、CSV、Markdown。
 6. `compare`：先检查可比性，再显示差异；条件不一致则解释原因，不自动产生胜负。
 
-SDK 与 CLI 使用同一套实现。示例命令见 README，当前均不可执行。
+Rust library 与 CLI 使用同一套实现。可执行命令和配置见 README。
 
 ## 4. 架构
 
@@ -65,13 +65,13 @@ flowchart LR
 | metrics | 从事件计算延迟、吞吐、SLO 和分位数 | 不依赖引擎名称修改公式 |
 | artifacts/report | 写证据、离线重算、比较 | 不再次访问服务 |
 
-拟用 Python 3.11+、asyncio、httpx；参数配置先用标准 JSON 和 dataclass，CLI 用 argparse。需要本地 token 估计时才安装 tokenizer 可选依赖。首版适配器用明确注册表，不先做插件市场或动态脚本配置。
+采用 Rust，Tokio + reqwest 处理异步 HTTP，serde 读取严格 JSON 配置，clap 提供 CLI；同一 crate 导出 library。直接 cargo build --release，不需要 Python、Torch 或 CUDA。当前不提供 tokenizer 估计，不把字符长度冒充 token 长度。
 
 ## 5. 协议和私有引擎
 
 首版实现 `/v1/chat/completions`、`/v1/completions` 的 streaming / non-streaming。vLLM、SGLang 和兼容私有引擎共享适配器，实际支持情况通过能力检查和真实端点验收记录。
 
-非兼容私有 HTTP 协议通过 Python adapter 接入：`capabilities()` 声明已知能力，`build_request()` 构造请求，`parse_response()` 输出统一事件。调度、计时、错误分类和聚合仍由核心负责。服务端 Prefill/Decode 遥测属于首版可选能力，需按实际引擎版本映射。gRPC、WebSocket 和 kernel profiler 留到具体需求出现。
+非兼容私有 HTTP 协议通过 Rust 协议适配器扩展（非兼容协议插件接口尚未实现）：`capabilities()` 声明已知能力，`build_request()` 构造请求，`parse_response()` 输出统一事件。调度、计时、错误分类和聚合仍由核心负责。服务端 Prefill/Decode 遥测属于首版可选能力，需按实际引擎版本映射。gRPC、WebSocket 和 kernel profiler 留到具体需求出现。
 
 最小事件包含 request_id、单调时钟相对时间、事件类型、通道、可选 token 数及计数来源。类型覆盖 scheduled、dispatched、headers、content_delta、usage、completed、failed；content_delta 区分 answer、reasoning、tool，角色帧、心跳、空帧均不算内容。
 

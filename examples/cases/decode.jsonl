@@ -1,0 +1,1 @@
+{"id": "decode-tutorial-en", "group": "decode-heavy", "language": "en", "prompt": "Write a detailed tutorial of at least 1500 words about how relational databases execute joins, including nested-loop, hash, and merge joins, with examples and tradeoffs.", "tags": ["short-input", "long-output-request"]}

@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "target": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "your-served-model",
+    "adapter": "chat-completions",
+    "metadata": {
+      "engine": "unknown",
+      "engine_version": "unknown",
+      "hardware": "unknown",
+      "tokenizer": "unknown"
+    }
+  },
+  "dataset": "cases/content.jsonl",
+  "mode": "performance",
+  "generation": {
+    "stream": true,
+    "include_usage": true,
+    "max_tokens": 256,
+    "temperature": 0,
+    "seed": 42,
+    "cache_policy": "unknown"
+  },
+  "load": {
+    "kind": "closed_loop",
+    "concurrency": 4,
+    "requests": 20,
+    "warmup_requests": 2,
+    "request_timeout_seconds": 60,
+    "episode_timeout_seconds": 120,
+    "max_seconds": 300,
+    "drain_seconds": 60
+  },
+  "slo": {
+    "ttft_ms": 1000,
+    "e2e_ms": 15000
+  },
+  "save_content": false,
+  "telemetry": {
+    "url": "http://127.0.0.1:8000/metrics",
+    "histograms": {
+      "queue": "vllm:request_queue_time_seconds",
+      "prefill": "vllm:request_prefill_time_seconds",
+      "decode": "vllm:request_decode_time_seconds"
+    },
+    "labels": {
+      "model_name": "your-served-model"
+    },
+    "exclusive": false
+  }
+}

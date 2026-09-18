@@ -1,0 +1,5 @@
+{"id":"chat-zh","group":"chat","language":"zh","prompt":"用三句话解释 TCP 与 UDP 的区别。","tags":["short-input"]}
+{"id":"code-en","group":"code","language":"en","prompt":"Write a small Rust function that returns the largest i64 in a slice, or None if empty. Explain its behavior.","tags":["code"]}
+{"id":"json-zh","group":"structured","language":"zh","prompt":"从这条日志提取 level 和 code，只返回 JSON：2026-01-01 ERROR code=503 upstream unavailable","tags":["json","log"]}
+{"id":"decode-en","group":"decode-heavy","language":"en","prompt":"Write a detailed tutorial explaining database indexes, with examples and tradeoffs for B-trees, hash indexes, and composite indexes.","tags":["short-input","long-output-request"]}
+{"id":"table-mixed","group":"table","language":"mixed","prompt":"解释这个 CSV 的含义，并计算每个产品的总收入：product,price,quantity\n键盘,100,3\nmouse,50,4","tags":["csv"]}

@@ -1,29 +1,15 @@
 {
-  "status": "illustrative_design_only_not_executable",
-  "schema_version": "proposal-0",
+  "version": 1,
   "target": {
-    "adapter": "chat-completions",
     "base_url": "http://127.0.0.1:8000/v1",
     "model": "your-served-model",
-    "api_key_env": "BENCH_API_KEY",
-    "engine": {"name": "unknown", "version": "unknown"}
+    "adapter": "chat-completions",
+    "metadata": {"engine": "unknown", "engine_version": "unknown", "hardware": "unknown", "tokenizer": "unknown"}
   },
-  "workload": {
-    "dataset": "./data/prompts.jsonl",
-    "seed": 42,
-    "stream": true,
-    "max_output_tokens": 256,
-    "temperature": 0,
-    "cache_policy": "unknown"
-  },
-  "load": {
-    "mode": "closed_loop",
-    "concurrency": 4,
-    "requests": 200,
-    "warmup_requests": 8,
-    "request_timeout_seconds": 120,
-    "drain_timeout_seconds": 120
-  },
+  "dataset": "cases/content.jsonl",
+  "mode": "performance",
+  "generation": {"stream": true, "include_usage": true, "max_tokens": 256, "temperature": 0, "seed": 42, "cache_policy": "unknown"},
+  "load": {"kind": "closed_loop", "concurrency": 4, "requests": 20, "warmup_requests": 2, "request_timeout_seconds": 60, "episode_timeout_seconds": 120, "max_seconds": 300, "drain_seconds": 60},
   "slo": {"ttft_ms": 1000, "e2e_ms": 15000},
-  "artifacts": {"save_content": false}
+  "save_content": false
 }
