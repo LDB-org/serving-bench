@@ -348,3 +348,13 @@ fn external_schema_references_are_not_fetched() {
     });
     assert!(c.validate().is_err());
 }
+
+#[test]
+fn persisted_measurement_window_preserves_float_bits() {
+    let window = 0.041655041999999996_f64;
+    let encoded = serde_json::to_vec(&json!({"window_seconds": window})).unwrap();
+    let decoded: serde_json::Value = serde_json::from_slice(&encoded).unwrap();
+    let restored = decoded["window_seconds"].as_f64().unwrap();
+    assert_eq!(window.to_bits(), restored.to_bits());
+    assert_eq!((4.0 / window).to_bits(), (4.0 / restored).to_bits());
+}
