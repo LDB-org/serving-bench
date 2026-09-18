@@ -1,0 +1,37 @@
+{
+  "status": "illustrative_design_only_not_executable",
+  "schema_version": "proposal-0",
+  "target_config": "benchmark.json",
+  "suite": "quality_under_load",
+  "dataset": "./data/evaluation-cases.jsonl",
+  "groups": ["qa", "math", "code", "rag", "structured", "tools"],
+  "languages": ["zh", "en"],
+  "execution": {
+    "concurrency_unit": "episode",
+    "concurrency_points": [1, 4, 16],
+    "max_in_flight_http_requests": 16,
+    "repetitions": 3,
+    "max_episodes_per_point": 100,
+    "max_total_seconds": 3600,
+    "max_total_generated_tokens": 500000,
+    "max_episode_seconds": 120,
+    "max_turns_per_episode": 8,
+    "max_tool_calls_per_episode": 16
+  },
+  "evaluation": {
+    "scorers": "declared_by_case",
+    "judge": {"enabled": false},
+    "code_execution": {"backend": "isolated_sandbox", "on_unavailable": "unsupported"},
+    "tool_environment": "deterministic_fixtures"
+  },
+  "telemetry": {
+    "enabled": false,
+    "missing_metric_policy": "not_available",
+    "requested": ["queue", "prefill", "decode", "prefix_cache", "kv_cache"]
+  },
+  "artifacts": {
+    "save_content": false,
+    "save_per_case_scores": true,
+    "content_rescoring_available": false
+  }
+}
